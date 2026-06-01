@@ -1,5 +1,6 @@
 import { pool } from "../db";
 import bcrypt from "bcryptjs";
+import jwt  from "jsonwebtoken";
 const usersIntoDb = async (payload: any) => {
   const { name, email, password, role = null } = payload;
   const hashPassword = await bcrypt.hash(password, 10);
@@ -15,6 +16,44 @@ const usersIntoDb = async (payload: any) => {
   return result.rows[0];
 };
 
+const loginUsersIntoDb = async(payload:any)=>{
+const {email,password}=payload
+
+const usersResult = await pool.query(`
+    SELECT * FROM users
+    WHERE email =$1`,
+[email])
+
+const users = usersResult.rows[0]
+
+if (!users) {
+  throw new Error ("Account not found with with this email")  
+}
+const isPasswordMatched = await bcrypt.compare(password,users.password)
+if (!isPasswordMatched) {
+    throw new Error ("Password does not match")
+}
+
+const jwtpayload = {
+    id:users.id,
+    email:users.email,
+    role:users.role
+}
+
+const token = jwt.sign(jwtpayload,"secret-key",{
+    expiresIn:"30d"
+})
+delete users.password;
+return {
+    token,
+    users
+} 
+}
+
+
+
+
 export const usersService = {
   usersIntoDb,
+  loginUsersIntoDb,
 };

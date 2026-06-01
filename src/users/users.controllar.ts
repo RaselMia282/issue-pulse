@@ -8,7 +8,7 @@ try {
 
 
     res.status(201).json({
-      success: "true",
+      success: true,
       message: "users registered successfully",
       data: result,
     });
