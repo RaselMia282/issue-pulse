@@ -34,3 +34,4 @@ try {
     });
 }
 }
+export default auth
