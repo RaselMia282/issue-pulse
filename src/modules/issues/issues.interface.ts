@@ -3,5 +3,5 @@ export type TIssue ={
     description:string,
     type:string,
     status : string,
-    users_id : number
+    reporter_id : number
 }

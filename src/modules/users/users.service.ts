@@ -2,7 +2,8 @@ import { pool } from "../../db";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 const usersIntoDb = async (payload: any) => {
-  const { name, email, password, role = null } = payload;
+  const { name, email, password, role = 'contributor' } = payload;
+  
   const hashPassword = await bcrypt.hash(password, 10);
 
   const result = await pool.query(
@@ -40,6 +41,7 @@ const loginUsersIntoDb = async (payload: any) => {
     id: users.id,
     email: users.email,
     role: users.role,
+    name:users.name,
   };
 
   const token = jwt.sign(jwtpayload, "secret-key", {
@@ -48,7 +50,7 @@ const loginUsersIntoDb = async (payload: any) => {
   delete users.password;
   return {
     token,
-    users,
+    user:users,
   };
 };
 

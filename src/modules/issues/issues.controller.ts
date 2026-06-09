@@ -1,102 +1,130 @@
 import type { Request, Response } from "express";
 import { issuesService } from "./issues.service";
 
+
 const createIssues = async (req: Request, res: Response) => {
   try {
-    const loggedInUser = (req as any).users;
-    const issuePayload = {
-      ...req.body,
-      users_id: loggedInUser.id,
-    };
-    const result = await issuesService.createIssuesIntoDb(issuePayload);
+    const reporterId = req.user?.id; // 
+    if (!reporterId) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized",
+        errors: "Reporter ID not found in token."
+      });
+    }
 
-    res.status(201).json({
+   
+    const result = await issuesService.createIssuesIntoDb(req.body, reporterId);
+
+    return res.status(201).json({
       success: true,
-      message: "Issue created  successfully",
+      message: "Issue created successfully", 
       data: result,
     });
   } catch (error: any) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
-      message: error.message,
-      error: error,
+      message: error.message || "Internal Server Error",
+      errors: error,
     });
   }
 };
+
 
 const getAllIssues = async (req: Request, res: Response) => {
   try {
-    const result = await issuesService.getAllIssuesIntoDb();
+   
+    const result = await issuesService.getAllIssuesIntoDb(req.query);
 
-    res.status(201).json({
+    return res.status(200).json({ 
       success: true,
-      message: "Issue created  successfully",
+      message: "Issues retrieved successfully", 
       data: result,
     });
   } catch (error: any) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: error.message,
-      error: error,
+      errors: error,
     });
   }
 };
+
 
 const getSingleIssues = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params
-    const {title,description,type,status}=req.body
+    const { id } = req.params;
     const result = await issuesService.getSingleIssuesIntoDb(id);
-    res.status(201).json({
+
+    if (!result) {
+      return res.status(404).json({
+        success: false,
+        message: "Issue not found"
+      });
+    }
+
+    return res.status(200).json({ 
       success: true,
-      message: "Issue retrieved  successfully",
+      message: "Issue retrieved successfully",
       data: result,
     });
   } catch (error: any) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: error.message,
-      error: error,
+      errors: error,
     });
   }
 };
+
+
 const updateIssues = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const payload = req.body
-     const result = await issuesService.updateIssuesIntoDb(id,payload)
-    res.status(201).json({
+    const payload = req.body;
+    
+    const result = await issuesService.updateIssuesIntoDb(id, payload);
+
+    return res.status(200).json({ 
       success: true,
-      message: "Issue updated  successfully",
+      message: "Issue updated successfully",
       data: result,
     });
   } catch (error: any) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: error.message,
-      error: error,
+      errors: error,
     });
   }
 };
 
-const deleteIssues = async(req:Request,res:Response)=>{
+
+const deleteIssues = async (req: Request, res: Response) => {
   try {
-    const {id}=req.params
-const result = await issuesService.deleteIssuesIntoDb(id)
-res.status(201).json({
+    const { id } = req.params;
+    const result=await issuesService.deleteIssuesIntoDb(id);
+
+    if (!result) {
+      return res.status(404).json({
+        success: false,
+        message: "Issue not found to delete"
+      });
+    }
+
+    return res.status(200).json({ 
       success: true,
-      message: "Issue deleted  successfully",
-      data: result,
+      message: "Issue deleted successfully"
     });
-  } catch (error:any) {
-    res.status(500).json({
+  } catch (error: any) {
+    return res.status(500).json({
       success: false,
       message: error.message,
-      error: error,
+      errors: error,
     });
   }
+};
 
-}
 export const issuesController = {
   createIssues,
   getAllIssues,

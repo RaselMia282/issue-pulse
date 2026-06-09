@@ -7,14 +7,14 @@ const createUsers = async (req: Request, res: Response) => {
 
     res.status(201).json({
       success: true,
-      message: "users registered successfully",
+      message: "user registered successfully",
       data: result,
     });
   } catch (error: any) {
     res.status(500).json({
       success: false,
       message: error.message,
-      error: error,
+      errors: error,
     });
   }
 };
@@ -24,14 +24,14 @@ const loginUsers = async (req: Request, res: Response) => {
     const result = await usersService.loginUsersIntoDb(req.body);
     res.status(200).json({
       success: true,
-      message: " login successful",
+      message: " Login successful",
       data: result,
     });
   } catch (error: any) {
     res.status(500).json({
       success: false,
       message: error.message,
-      error: error,
+      errors: error,
     });
   }
 };
