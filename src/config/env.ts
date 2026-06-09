@@ -5,7 +5,8 @@ dotenv.config({
 })
 
 const config = {
-    port:process.env.PORT || 3000,
+    port:process.env.PORT || 8000,
     Database_URL:process.env.DATABASE_URL as string,
+    jwt_secret: process.env.JWT_SECRET || 'fallback-secret-key-just-in-case',
 }
 export default config

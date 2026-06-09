@@ -2,6 +2,7 @@ import type { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { pool } from "../db";
 import type { TDecodedUser } from "./auth.interface";
+import config from "../config/env";
 declare global {
   namespace Express {
     interface Request {
@@ -28,7 +29,7 @@ const auth = (...requiredRoles: ("contributor" | "maintainer")[]) => {
         });
       }
 
-      const decoded = jwt.verify(token, "secret-key") as TDecodedUser;
+      const decoded = jwt.verify(token, config.jwt_secret) as TDecodedUser;
 
       const usersData = await pool.query(
         `SELECT id, name, role FROM users WHERE id = $1`,

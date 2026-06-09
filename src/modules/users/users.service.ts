@@ -2,6 +2,7 @@ import { pool } from "../../db";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import type { TUserLoginPayload,TUserSignupPayload } from "./users.interface";
+import config from "../../config/env";
 const usersIntoDb = async (payload: TUserSignupPayload) => {
   const { name, email, password, role = 'contributor' } = payload;
   
@@ -45,7 +46,7 @@ const loginUsersIntoDb = async (payload: TUserLoginPayload) => {
     name:users.name,
   };
 
-  const token = jwt.sign(jwtpayload, "secret-key", {
+  const token = jwt.sign(jwtpayload, config.jwt_secret, {
     expiresIn: "30d",
   });
   delete users.password;
