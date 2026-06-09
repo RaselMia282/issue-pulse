@@ -68,3 +68,15 @@ Method->GET Time->1780985587859 Url->/api/issues/2
 Method->GET Time->1780985596730 Url->/api/issues/4
 
 Method->GET Time->1780986023429 Url->/api/issues/4
+
+Method->POST Time->1781014310364 Url->/api/auth/signup
+
+Method->POST Time->1781014421320 Url->/api/auth/login
+
+Method->POST Time->1781014665208 Url->/api/issues
+
+Method->POST Time->1781015127326 Url->/api/auth/signup
+
+Method->POST Time->1781015181999 Url->/api/auth/login
+
+Method->POST Time->1781015262128 Url->/api/issues

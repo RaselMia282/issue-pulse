@@ -1,7 +1,8 @@
 import { pool } from "../../db";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-const usersIntoDb = async (payload: any) => {
+import type { TUserLoginPayload,TUserSignupPayload } from "./users.interface";
+const usersIntoDb = async (payload: TUserSignupPayload) => {
   const { name, email, password, role = 'contributor' } = payload;
   
   const hashPassword = await bcrypt.hash(password, 10);
@@ -17,7 +18,7 @@ const usersIntoDb = async (payload: any) => {
   return result.rows[0];
 };
 
-const loginUsersIntoDb = async (payload: any) => {
+const loginUsersIntoDb = async (payload: TUserLoginPayload) => {
   const { email, password } = payload;
 
   const usersResult = await pool.query(

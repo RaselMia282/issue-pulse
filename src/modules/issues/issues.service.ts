@@ -1,5 +1,5 @@
 import { pool } from "../../db";
-import type { TIssue } from "./issues.interface";
+import type { TIssue,TIssueQueryParams,TUserMappedResponse} from "./issues.interface";
 
 const createIssuesIntoDb = async (payload: TIssue, reporterId: number) => {
   try {
@@ -18,7 +18,7 @@ const createIssuesIntoDb = async (payload: TIssue, reporterId: number) => {
   }
 };
 
-const getAllIssuesIntoDb = async (queryParams?: any) => {
+const getAllIssuesIntoDb = async (queryParams?: TIssueQueryParams) => {
   try {
     const sort = queryParams?.sort || "newest";
     const type = queryParams?.type;
@@ -60,7 +60,7 @@ const getAllIssuesIntoDb = async (queryParams?: any) => {
       [reporterIds],
     );
 
-    const userMap: Record<number, any> = {};
+    const userMap: Record<number, TUserMappedResponse> = {};
     usersResult.rows.forEach((user) => {
       userMap[user.id] = user;
     });
@@ -79,7 +79,7 @@ const getAllIssuesIntoDb = async (queryParams?: any) => {
   }
 };
 
-const getSingleIssuesIntoDb = async (id: any) => {
+const getSingleIssuesIntoDb = async (id: string | number) => {
   try {
     const result = await pool.query(
       `
@@ -107,7 +107,7 @@ const getSingleIssuesIntoDb = async (id: any) => {
   }
 };
 
-const updateIssuesIntoDb = async (id: any, payload: any) => {
+const updateIssuesIntoDb = async (id: string|number, payload:Partial<TIssue>) => {
   try {
     const { title, description, type, status } = payload;
 
@@ -127,7 +127,7 @@ const updateIssuesIntoDb = async (id: any, payload: any) => {
   
 };
 
-const deleteIssuesIntoDb = async (id: any) => {
+const deleteIssuesIntoDb = async (id:string|number) => {
   try {
     const result = await pool.query(
       `DELETE FROM issues
