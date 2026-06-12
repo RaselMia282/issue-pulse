@@ -80,3 +80,51 @@ Method->POST Time->1781015127326 Url->/api/auth/signup
 Method->POST Time->1781015181999 Url->/api/auth/login
 
 Method->POST Time->1781015262128 Url->/api/issues
+
+Method->GET Time->1781232277288 Url->/
+
+Method->GET Time->1781232277528 Url->/favicon.ico
+
+Method->GET Time->1781232279380 Url->/
+
+Method->GET Time->1781232279945 Url->/
+
+Method->GET Time->1781232280171 Url->/
+
+Method->GET Time->1781232280505 Url->/
+
+Method->GET Time->1781232313299 Url->/
+
+Method->GET Time->1781232313840 Url->/
+
+Method->GET Time->1781232314053 Url->/
+
+Method->GET Time->1781232314255 Url->/
+
+Method->GET Time->1781232408295 Url->/
+
+Method->GET Time->1781232408892 Url->/
+
+Method->GET Time->1781232409085 Url->/
+
+Method->GET Time->1781232929433 Url->/
+
+Method->GET Time->1781232930057 Url->/
+
+Method->GET Time->1781235898281 Url->/
+
+Method->GET Time->1781235898449 Url->/favicon.ico
+
+Method->GET Time->1781235900542 Url->/
+
+Method->GET Time->1781235901027 Url->/
+
+Method->GET Time->1781235901239 Url->/
+
+Method->GET Time->1781235901423 Url->/
+
+Method->GET Time->1781235901623 Url->/
+
+Method->GET Time->1781235901824 Url->/
+
+Method->GET Time->1781235902023 Url->/

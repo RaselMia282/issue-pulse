@@ -37,10 +37,11 @@ const getAllIssues = async (req: Request, res: Response) => {
       message: "Issues retrieved successfully",
       data: result,
     });
-  } catch (error: any) {
+  } catch (error) {
+    const err = error as Error;
     return res.status(500).json({
       success: false,
-      message: error.message,
+      message: err.message,
       errors: error,
     });
   }
@@ -48,7 +49,7 @@ const getAllIssues = async (req: Request, res: Response) => {
 
 const getSingleIssues = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
+    const  id  = req.params.id as string
     const result = await issuesService.getSingleIssuesIntoDb(id);
 
     if (!result) {
@@ -63,10 +64,11 @@ const getSingleIssues = async (req: Request, res: Response) => {
       message: "Issue retrieved successfully",
       data: result,
     });
-  } catch (error: any) {
+  } catch (error) {
+    const err = error as Error;
     return res.status(500).json({
       success: false,
-      message: error.message,
+      message: err.message,
       errors: error,
     });
   }
@@ -74,7 +76,7 @@ const getSingleIssues = async (req: Request, res: Response) => {
 
 const updateIssues = async (req: Request, res: Response): Promise<Response> => {
   try {
-    const { id } = req.params;
+    const  id  = req.params.id as string
     const payload = req.body;
     
     
@@ -134,7 +136,7 @@ const updateIssues = async (req: Request, res: Response): Promise<Response> => {
 
 const deleteIssues = async (req: Request, res: Response): Promise<Response> => {
   try {
-    const { id } = req.params;
+    const  id  = req.params.id as string
 
     
     const currentUser = req.user;
